@@ -1,5 +1,7 @@
 import { NavLink } from "react-router-dom";
 import logo from "../assets/logowagc.png";
+
+//ENHANCEMENT 1: NAVBAR DESIGN
 const links = [
   {
     label: "Home",
@@ -20,7 +22,7 @@ const links = [
     inactiveClass: "bg-blue-500 hover:bg-blue-400",
   },
 ];
-
+//ENHANCEMENT 3: OWN LOGO
 const NavBar = () => {
   return (
     <header className="fixed inset-x-0 top-0 z-50 bg-blue-950/95 backdrop-blur-md border-b border-blue-900 shadow-lg">

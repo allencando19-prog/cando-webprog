@@ -1,146 +1,77 @@
+import { useParams } from "react-router-dom";
 import Button from "../components/Button";
-import article1 from "../assets/java.jpeg";
-import article2 from "../assets/python.jpg";
-import article3 from "../assets/reactjs.png";
-import article4 from "../assets/wordpress.avif";
+import articles from "../assets/article-content.js";
 
-const ArticlePage = () => {
+function ArticlePage() {
+  const { name } = useParams();
+  const article = articles.find((article) => article.name === name);
+
+  if (!article) {
+    return (
+      <div className="flex w-full flex-col gap-6">
+        <section className="border-y-2 border-zinc-900 bg-zinc-50 px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+          <div className="mx-auto max-w-3xl">
+            <h1 className="text-3xl font-bold text-zinc-900">
+              Article not found
+            </h1>
+            <Button to="/articles" className="mt-6">
+              Back to Articles
+            </Button>
+          </div>
+        </section>
+      </div>
+    );
+  }
+
   return (
     <div className="flex w-full flex-col gap-6">
       <section className="border-y-2 border-zinc-900 bg-zinc-50 px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
-        <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-zinc-500">
-          Articles
-        </p>
+        <div className="max-w-3xl">
+          <div className="mb-4">
+            <Button to="/articles">← Back to Articles</Button>
+          </div>
 
-        <h1 className="max-w-xl text-3xl font-bold leading-tight text-zinc-900 sm:text-4xl">
-          Featured here are my skills that I have developed so far.
-        </h1>
+          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-zinc-500">
+            Article
+          </p>
 
-        <p className="mt-4 max-w-lg text-sm leading-7 text-zinc-600 sm:text-base">
-          These platforms and languages are the ones I've learned from school
-          coursework as well as self-learning.
-        </p>
+          <h1 className="text-3xl font-bold leading-tight text-zinc-900 sm:text-4xl">
+            {article.title}
+          </h1>
 
-        <div className="mt-6">
-          <Button to="/">Back Home</Button>
+          <p className="mt-2 text-sm text-zinc-500">
+            {article.name
+              .split("-")
+              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(" ")}
+          </p>
         </div>
       </section>
 
       <section className="border-y-2 border-zinc-900 bg-zinc-50 px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
-        <div className="mb-6">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-zinc-500">
-            Featured Articles
-          </p>
+        <div className="mx-auto max-w-3xl">
+          <div className="flex aspect-4/3 items-center justify-center rounded-[1.25rem] border-2 border-zinc-900 bg-zinc-200 mb-8">
+            <div className="h-24 w-24 border-2 border-zinc-300 bg-zinc-100" />
+          </div>
 
-          <h2 className="mt-2 text-2xl font-semibold text-zinc-900">
-            Platforms and Languages I Use:
-          </h2>
-        </div>
+          <div className="prose prose-sm max-w-none space-y-4 text-zinc-700">
+            {article.content.map((paragraph, index) => (
+              <p
+                key={index}
+                className="text-base leading-7 text-zinc-700 whitespace-pre-wrap"
+              >
+                {paragraph}
+              </p>
+            ))}
+          </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          <article className="rounded-3xl border-2 border-zinc-900 bg-zinc-100 p-4">
-            <div className="flex aspect-video items-center justify-center rounded-[1.25rem] bg-zinc-200 overflow-hidden">
-              <img
-                src={article1}
-                alt="Article 01"
-                className="w-full h-full object-cover"
-              />
-            </div>
-
-            <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-500">
-              Java
-            </p>
-
-            <h3 className="mt-2 text-lg font-semibold text-zinc-900">
-              Object-oriented enterprise programming language
-            </h3>
-
-            <p className="mt-3 text-sm leading-6 text-zinc-600">
-              Developed structured applications and strengthened problem-solving
-              through object-oriented programming.
-            </p>
-
-            <Button className="mt-4">Read More</Button>
-          </article>
-
-          <article className="rounded-3xl border-2 border-zinc-900 bg-zinc-100 p-4">
-            <div className="flex aspect-video items-center justify-center rounded-[1.25rem] bg-zinc-200 overflow-hidden">
-              <img
-                src={article2}
-                alt="Article 02"
-                className="w-full h-full object-cover"
-              />
-            </div>
-
-            <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-500">
-              Python
-            </p>
-
-            <h3 className="mt-2 text-lg font-semibold text-zinc-900">
-              Simple versatile high-level language
-            </h3>
-
-            <p className="mt-3 text-sm leading-6 text-zinc-600">
-              Used Python to automate tasks and build simple programs with
-              efficient, readable code.
-            </p>
-
-            <Button className="mt-4">Read More</Button>
-          </article>
-
-          <article className="rounded-3xl border-2 border-zinc-900 bg-zinc-100 p-4">
-            <div className="flex aspect-video items-center justify-center rounded-[1.25rem] bg-zinc-200 overflow-hidden">
-              <img
-                src={article3}
-                alt="Article 03"
-                className="w-full h-full object-cover"
-              />
-            </div>
-
-            <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-500">
-              ReactJS
-            </p>
-
-            <h3 className="mt-2 text-lg font-semibold text-zinc-900">
-              Component-based JavaScript UI library
-            </h3>
-
-            <p className="mt-3 text-sm leading-6 text-zinc-600">
-              Built responsive user interfaces using reusable components and
-              modern web development practices.
-            </p>
-
-            <Button className="mt-4">Read More</Button>
-          </article>
-
-          <article className="rounded-3xl border-2 border-zinc-900 bg-zinc-100 p-4">
-            <div className="flex aspect-video items-center justify-center rounded-[1.25rem] bg-zinc-200 overflow-hidden">
-              <img
-                src={article4}
-                alt="Article 04"
-                className="w-full h-full object-cover"
-              />
-            </div>
-
-            <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-500">
-              WordPress
-            </p>
-
-            <h3 className="mt-2 text-lg font-semibold text-zinc-900">
-              Popular website content management system
-            </h3>
-
-            <p className="mt-3 text-sm leading-6 text-zinc-600">
-              Managed and customized website content, layouts, and features for
-              functional web pages.
-            </p>
-
-            <Button className="mt-4">Read More</Button>
-          </article>
+          <div className="mt-8 border-t-2 border-zinc-900 pt-6">
+            <Button to="/articles">Back to Articles</Button>
+          </div>
         </div>
       </section>
     </div>
   );
-};
+}
 
 export default ArticlePage;

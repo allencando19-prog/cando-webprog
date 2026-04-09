@@ -4,6 +4,7 @@ import cardImage from "../assets/proj1.png";
 import cardImage2 from "../assets/proj2.png";
 import cardImage3 from "../assets/proj3.jpg";
 
+//ENHANCEMENT 2
 const HomePage = () => {
   return (
     <div className="flex w-full flex-col gap-6">

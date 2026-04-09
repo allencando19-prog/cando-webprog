@@ -5,6 +5,8 @@ import stardew from "../assets/stardew.png";
 import terraria from "../assets/terraria.jpg";
 import profilePic from "../assets/cat.webp";
 
+//ENHANCEMENT 2
+
 const games = [cyberpunk, dave, stardew, terraria];
 
 const AboutPage = () => {
