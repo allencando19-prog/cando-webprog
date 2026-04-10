@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
-import Button from "../components/Button";
-import articles from "../assets/article-content.js";
+import Button from "../../components/Button.jsx";
+import articles from "../../assets/article-content.js";
 
 function ArticlePage() {
   const { name } = useParams();
@@ -50,8 +50,16 @@ function ArticlePage() {
 
       <section className="border-y-2 border-zinc-900 bg-zinc-50 px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
         <div className="mx-auto max-w-3xl">
-          <div className="flex aspect-4/3 items-center justify-center rounded-[1.25rem] border-2 border-zinc-900 bg-zinc-200 mb-8">
-            <div className="h-24 w-24 border-2 border-zinc-300 bg-zinc-100" />
+          <div className="flex aspect-video items-center justify-center rounded-[1.25rem] border-2 border-zinc-900 bg-zinc-200 mb-8 overflow-hidden">
+            {article.image ? (
+              <img
+                src={article.image}
+                alt={article.title}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="h-24 w-24 border-2 border-zinc-300 bg-zinc-100" />
+            )}
           </div>
 
           <div className="prose prose-sm max-w-none space-y-4 text-zinc-700">

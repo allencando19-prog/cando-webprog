@@ -1,8 +1,8 @@
-import Button from "../components/Button";
-import photo from "../assets/ghibli.webp";
-import cardImage from "../assets/proj1.png";
-import cardImage2 from "../assets/proj2.png";
-import cardImage3 from "../assets/proj3.jpg";
+import Button from "../../components/Button";
+import photo from "../../assets/ghibli.webp";
+import cardImage from "../../assets/proj1.png";
+import cardImage2 from "../../assets/proj2.png";
+import cardImage3 from "../../assets/proj3.jpg";
 
 //ENHANCEMENT 2
 const HomePage = () => {

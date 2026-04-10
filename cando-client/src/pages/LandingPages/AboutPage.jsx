@@ -1,9 +1,9 @@
-import Button from "../components/Button";
-import cyberpunk from "../assets/cyberpunk.jpg";
-import dave from "../assets/dave.webp";
-import stardew from "../assets/stardew.png";
-import terraria from "../assets/terraria.jpg";
-import profilePic from "../assets/cat.webp";
+import Button from "../../components/Button";
+import cyberpunk from "../../assets/cyberpunk.jpg";
+import dave from "../../assets/dave.webp";
+import stardew from "../../assets/stardew.png";
+import terraria from "../../assets/terraria.jpg";
+import profilePic from "../../assets/cat.webp";
 
 //ENHANCEMENT 2
 

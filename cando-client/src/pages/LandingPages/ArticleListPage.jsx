@@ -1,11 +1,11 @@
-import Button from "../components/Button";
-import ArticleList from "../components/ArticleList";
-import articles from "../assets/article-content.js";
+import Button from "../../components/Button.jsx";
+import ArticleList from "../../components/ArticleList.jsx";
+import articles from "../../assets/article-content.js";
 
-import article1 from "../assets/java.jpeg";
-import article2 from "../assets/python.jpg";
-import article3 from "../assets/reactjs.png";
-import article4 from "../assets/wordpress.avif";
+import article1 from "../../assets/java.jpeg";
+import article2 from "../../assets/python.jpg";
+import article3 from "../../assets/reactjs.png";
+import article4 from "../../assets/wordpress.avif";
 
 //ENHANCEMENT 2
 const ArticleListPage = () => {
@@ -64,7 +64,9 @@ const ArticleListPage = () => {
               through object-oriented programming.
             </p>
 
-            <Button className="mt-4">Read More</Button>
+            <Button to="/articles/java" className="mt-4">
+              Read More
+            </Button>
           </article>
 
           <article className="rounded-3xl border-2 border-zinc-900 bg-zinc-100 p-4">
@@ -89,7 +91,9 @@ const ArticleListPage = () => {
               efficient, readable code.
             </p>
 
-            <Button className="mt-4">Read More</Button>
+            <Button to="/articles/python" className="mt-4">
+              Read More
+            </Button>
           </article>
 
           <article className="rounded-3xl border-2 border-zinc-900 bg-zinc-100 p-4">
@@ -114,7 +118,9 @@ const ArticleListPage = () => {
               modern web development practices.
             </p>
 
-            <Button className="mt-4">Read More</Button>
+            <Button to="/articles/reactjs" className="mt-4">
+              Read More
+            </Button>
           </article>
 
           <article className="rounded-3xl border-2 border-zinc-900 bg-zinc-100 p-4">
@@ -139,7 +145,9 @@ const ArticleListPage = () => {
               functional web pages.
             </p>
 
-            <Button className="mt-4">Read More</Button>
+            <Button to="/articles/wordpress" className="mt-4">
+              Read More
+            </Button>
           </article>
         </div>
       </section>

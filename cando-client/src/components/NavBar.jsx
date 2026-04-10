@@ -22,6 +22,7 @@ const links = [
     inactiveClass: "bg-blue-500 hover:bg-blue-400",
   },
 ];
+
 //ENHANCEMENT 3: OWN LOGO
 const NavBar = () => {
   return (
@@ -32,11 +33,11 @@ const NavBar = () => {
           <img
             src={logo}
             alt="Logo"
-            className="h-16 w-auto bg-blue-500 rounded-2xl p-2 shadow-md border border-blue-400"
+            className="h-12 w-auto bg-blue-500 rounded-2xl p-2 shadow-md border border-blue-400"
           />
         </NavLink>
 
-        {/* Vessel container with separate pills inside */}
+        {/* Nav Links + Logout */}
         <nav className="flex items-center gap-2 bg-blue-900/50 border-2 border-blue-700 rounded-full px-2 py-1.5 shadow-inner">
           {links.map((link) => (
             <NavLink
@@ -53,6 +54,14 @@ const NavBar = () => {
               {link.label}
             </NavLink>
           ))}
+
+          {/* Logout Button */}
+          <NavLink
+            to="/auth/signup"
+            className="rounded-full px-5 py-1.5 text-[11px] font-semibold uppercase tracking-widest transition-all duration-200 text-white bg-red-500 hover:bg-red-400"
+          >
+            Logout
+          </NavLink>
         </nav>
       </div>
     </header>

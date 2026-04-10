@@ -1,51 +1,54 @@
+import java from "./java.jpeg";
+import python from "./python.jpg";
+import reactjs from "./reactjs.png";
+import wordpress from "./wordpress.avif";
+
 const articles = [
   {
-    name: "react-props-and-styling",
-    title: "Understanding React Props and Styling",
+    name: "java",
+    title: "Java",
+    image: java,
     content: [
-      "Props (short for properties) allow you to pass data between components. They are read-only and essential for component reusability.",
-      "Example:\nfunction Welcome(props) {\n return <h1>Hello, {props.name}!</h1>;\n}",
-      "React supports multiple styling approaches: inline styles, CSS files, CSS Modules, and styled-components.",
-      "Inline Style Example:\nconst style = { color: 'blue' };\n<p style={style}>Styled Text</p>",
+      "Java is a class-based, object-oriented programming language designed to have as few implementation dependencies as possible.",
+      "It follows the 'Write Once, Run Anywhere' principle, meaning compiled Java code can run on all platforms that support Java.",
+      "Key concepts include classes, objects, inheritance, encapsulation, and polymorphism.",
     ],
   },
-
   {
-    name: "react-functional-components",
-    title: "React Functional Components",
+    name: "python",
+    title: "Python",
+    image: python,
     content: [
-      "Functional components are simple JavaScript functions that return JSX.",
-      "They are stateless by default but can use hooks like useState and useEffect.",
-      "Example:\nfunction HelloWorld() {\n return <h1>Hello, World!</h1>;\n}",
-      "They are preferred in modern React apps for simplicity and performance.",
+      "Python is a high-level, interpreted programming language known for its simplicity and readability.",
+      "It supports multiple programming paradigms including procedural, object-oriented, and functional programming.",
+      "Python is widely used in web development, data science, artificial intelligence, and automation.",
     ],
   },
-
   {
-    name: "react-component-lifecycle",
-    title: "React Component Lifecycle",
+    name: "reactjs",
+    title: "ReactJS",
+    image: reactjs,
     content: [
-      "Class components have lifecycle methods: mounting, updating, and unmounting.",
-      "Key methods include: componentDidMount, componentDidUpdate, componentWillUnmount.",
-      "Functional components use the useEffect hook to mimic lifecycle behavior.",
-      "Example:\nuseEffect(() => {\n console.log('Mounted');\n return () => console.log('Unmounted');\n}, []);",
+      "React is a JavaScript library for building user interfaces, maintained by Meta and a community of developers.",
+      "It uses a component-based architecture where UI is broken into reusable, independent pieces.",
+      "React uses a virtual DOM to efficiently update and render components when data changes.",
     ],
   },
-
   {
-    name: "react-routing-basics",
-    title: "React Router Basics",
+    name: "wordpress",
+    title: "WordPress",
+    image: wordpress,
     content: [
-      "React Router allows navigation between pages without a page reload.",
-      "Set up routes using BrowserRouter, Routes, and Route components.",
-      'Example:\n<Routes>\n <Route path="/" element={<Home />} />\n <Route path="/about" element={<About />} />\n</Routes>',
-      'Use Link component for navigation:\n<Link to="/about">About</Link>',
+      "WordPress is a free and open-source content management system written in PHP.",
+      "It powers over 40% of all websites on the internet, making it the most popular CMS in the world.",
+      "WordPress supports thousands of themes and plugins that allow users to customize their websites without coding.",
+      "It can be used for blogs, portfolios, e-commerce stores, and full business websites.",
     ],
   },
-
   {
     name: "react-state-management",
     title: "Managing State in React",
+    image: null,
     content: [
       "State allows components to keep track of dynamic data.",
       "useState hook lets functional components manage state.",

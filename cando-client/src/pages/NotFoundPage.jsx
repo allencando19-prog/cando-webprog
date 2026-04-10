@@ -9,12 +9,10 @@ const NotFoundPage = () => {
         <div className="absolute -top-10 -right-10 h-48 w-48 rounded-full bg-blue-950 opacity-5" />
         <div className="absolute -bottom-10 -left-10 h-48 w-48 rounded-full bg-blue-500 opacity-10" />
 
-        {/* Big 404 */}
         <p className="text-[100px] font-bold leading-none text-blue-950 opacity-10 select-none">
           404
         </p>
 
-        {/* Content */}
         <div className="-mt-6 relative z-10">
           <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-blue-500">
             Error
@@ -27,7 +25,6 @@ const NotFoundPage = () => {
           </p>
         </div>
 
-        {/* Divider */}
         <div className="my-8 border-t-2 border-dashed border-zinc-200" />
 
         {/* Button */}
