@@ -1,7 +1,7 @@
-import java from "./java.jpeg";
-import python from "./python.jpg";
-import reactjs from "./reactjs.png";
-import wordpress from "./wordpress.avif";
+import java from "../assets/java.jpeg";
+import python from "../assets/python.jpg";
+import reactjs from "../assets/reactjs.png";
+import wordpress from "../assets/wordpress.avif";
 
 const articles = [
   {

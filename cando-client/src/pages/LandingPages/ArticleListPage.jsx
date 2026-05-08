@@ -1,6 +1,6 @@
 import Button from "../../components/Button.jsx";
 import ArticleList from "../../components/ArticleList.jsx";
-import articles from "../../assets/article-content.js";
+import articles from "../../data/article-content.js";
 
 import article1 from "../../assets/java.jpeg";
 import article2 from "../../assets/python.jpg";
