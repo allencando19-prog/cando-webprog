@@ -44,6 +44,17 @@ app.use((req, res, next) => {
 app.use("/api/users", userRoutes);
 app.use("/api/articles", articleRoutes);
 
+// Handle CORS preflight requests for all routes
+app.options("*", cors(corsOptions));
+
+// Ensure OPTIONS requests get a quick response with CORS headers
+app.use((req, res, next) => {
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(204);
+  }
+  next();
+});
+
 // Error Handling
 app.use((err, req, res, next) => {
   console.error(err.stack);
