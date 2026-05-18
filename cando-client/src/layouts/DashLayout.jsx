@@ -33,18 +33,28 @@ const dashboardNavItems = [
     title: "Dashboard",
     to: "/dashboard",
     icon: DashboardIcon,
+    roles: ["admin", "editor", "viewer"],
+  },
+  {
+    label: "Articles",
+    title: "Articles",
+    to: "/dashboard/articles",
+    icon: AssessmentIcon,
+    roles: ["admin", "editor"],
   },
   {
     label: "Reports",
     title: "Reports",
     to: "/dashboard/reports",
     icon: AssessmentIcon,
+    roles: ["admin", "editor", "viewer"],
   },
   {
     label: "Users",
     title: "Users",
     to: "/dashboard/users",
     icon: PeopleIcon,
+    roles: ["admin"],
   },
 ];
 
@@ -154,6 +164,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const getPageTitle = (pathname) =>
   dashboardNavItems.find((item) => item.to === pathname)?.title || "Welcome";
 
+const getUserType = () => {
+  if (typeof window === "undefined") return "viewer";
+  return localStorage.getItem("type") || "viewer";
+};
+
 const DashLayout = () => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
@@ -170,6 +185,9 @@ const DashLayout = () => {
   };
 
   const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("firstName");
+    localStorage.removeItem("type");
     navigate("/");
   };
 
@@ -216,37 +234,39 @@ const DashLayout = () => {
         </DrawerHeader>
         <Divider />
         <List>
-          {dashboardNavItems.map((item) => {
-            const { label, to, icon: NavIcon } = item;
-            return (
-              <ListItem key={to} disablePadding sx={{ display: "block" }}>
-                <ListItemButton
-                  component={Link}
-                  to={to}
-                  selected={location.pathname === to}
-                  sx={{
-                    minHeight: 48,
-                    px: 2.5,
-                    justifyContent: open ? "initial" : "center",
-                  }}
-                >
-                  <ListItemIcon
+          {dashboardNavItems
+            .filter((item) => item.roles.includes(getUserType()))
+            .map((item) => {
+              const { label, to, icon: NavIcon } = item;
+              return (
+                <ListItem key={to} disablePadding sx={{ display: "block" }}>
+                  <ListItemButton
+                    component={Link}
+                    to={to}
+                    selected={location.pathname === to}
                     sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
+                      minHeight: 48,
+                      px: 2.5,
+                      justifyContent: open ? "initial" : "center",
                     }}
                   >
-                    <NavIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={label}
-                    sx={{ opacity: open ? 1 : 0 }}
-                  />
-                </ListItemButton>
-              </ListItem>
-            );
-          })}
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <NavIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={label}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              );
+            })}
         </List>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>

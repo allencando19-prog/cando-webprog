@@ -1,5 +1,7 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../../components/Button";
+import { loginUser } from "../../services/UserService";
 
 const inputClasses =
   "mt-2 w-full rounded-xl border border-zinc-300 bg-zinc-100 px-4 py-3 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-zinc-900 focus:bg-zinc-50";
@@ -8,6 +10,36 @@ const actionButtonClassName =
   "w-full rounded-xl py-3 text-[11px] tracking-[0.2em]";
 
 const SignInPage = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError("");
+    try {
+      const { data } = await loginUser({ email, password });
+      console.log("Login successful:", data);
+
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("firstName", data.firstName);
+      localStorage.setItem("type", data.type);
+
+      navigate("/dashboard", {
+        state: { firstName: data.firstName, type: data.type },
+      });
+    } catch (err) {
+      console.error(
+        "Login failed:",
+        err.response?.data?.message || err.message,
+      );
+      setError(
+        err.response?.data?.message || "Login failed. Please try again.",
+      );
+    }
+  };
+
   return (
     <div className="min-h-screen bg-zinc-100 flex items-center justify-center px-6 py-12">
       <div className="relative w-full max-w-lg rounded-3xl border-2 border-zinc-900 bg-white p-10 shadow-xl overflow-hidden">
@@ -32,8 +64,15 @@ const SignInPage = () => {
         {/* Divider */}
         <div className="my-6 border-t-2 border-dashed border-zinc-200" />
 
+        {/* Error message */}
+        {error && (
+          <p className="relative z-10 mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-600">
+            {error}
+          </p>
+        )}
+
         {/* Form */}
-        <form className="relative z-10 space-y-5">
+        <form className="relative z-10 space-y-5" onSubmit={handleLogin}>
           <div>
             <label
               htmlFor="signin-email"
@@ -46,6 +85,9 @@ const SignInPage = () => {
               type="email"
               placeholder="Placeholder"
               autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
               className={inputClasses}
             />
           </div>
@@ -62,6 +104,9 @@ const SignInPage = () => {
               type="password"
               placeholder="Placeholder"
               autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
               className={inputClasses}
             />
             <p className="mt-2 text-xs leading-5 text-zinc-500">

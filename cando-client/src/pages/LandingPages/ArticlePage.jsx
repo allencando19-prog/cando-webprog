@@ -1,10 +1,53 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Button from "../../components/Button.jsx";
-import articles from "../../data/article-content.js";
+import fallbackArticles from "../../data/article-content.js";
+import {
+  fetchArticles,
+  mapArticleFromApi,
+} from "../../services/ArticleService";
 
 function ArticlePage() {
   const { name } = useParams();
-  const article = articles.find((article) => article.name === name);
+  const [apiArticles, setApiArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const { data } = await fetchArticles();
+        setApiArticles((data.articles || []).map(mapArticleFromApi));
+      } catch (err) {
+        console.error("Unable to load article data:", err);
+        setError(
+          "Unable to load article data. Showing saved article if available.",
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    load();
+  }, []);
+
+  const article =
+    apiArticles.find((article) => article.name === name) ||
+    fallbackArticles.find((article) => article.name === name);
+
+  if (loading) {
+    return (
+      <div className="flex w-full flex-col gap-6">
+        <section className="border-y-2 border-zinc-900 bg-zinc-50 px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+          <div className="mx-auto max-w-3xl">
+            <h1 className="text-3xl font-bold text-zinc-900">
+              Loading article...
+            </h1>
+          </div>
+        </section>
+      </div>
+    );
+  }
 
   if (!article) {
     return (
@@ -51,9 +94,9 @@ function ArticlePage() {
       <section className="border-y-2 border-zinc-900 bg-zinc-50 px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
         <div className="mx-auto max-w-3xl">
           <div className="flex aspect-video items-center justify-center rounded-[1.25rem] border-2 border-zinc-900 bg-zinc-200 mb-8 overflow-hidden">
-            {article.image ? (
+            {article.imageUrl || article.image ? (
               <img
-                src={article.image}
+                src={article.imageUrl || article.image}
                 alt={article.title}
                 className="w-full h-full object-cover"
               />
@@ -63,7 +106,7 @@ function ArticlePage() {
           </div>
 
           <div className="prose prose-sm max-w-none space-y-4 text-zinc-700">
-            {article.content.map((paragraph, index) => (
+            {(article.content || []).map((paragraph, index) => (
               <p
                 key={index}
                 className="text-base leading-7 text-zinc-700 whitespace-pre-wrap"

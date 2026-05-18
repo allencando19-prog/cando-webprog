@@ -1,14 +1,40 @@
+import { useEffect, useState } from "react";
 import Button from "../../components/Button.jsx";
-import ArticleList from "../../components/ArticleList.jsx";
-import articles from "../../data/article-content.js";
+import {
+  fetchArticles,
+  mapArticleFromApi,
+} from "../../services/ArticleService";
+import fallbackArticles from "../../data/article-content.js";
+import { Link } from "react-router-dom";
 
-import article1 from "../../assets/java.jpeg";
-import article2 from "../../assets/python.jpg";
-import article3 from "../../assets/reactjs.png";
-import article4 from "../../assets/wordpress.avif";
-
-//ENHANCEMENT 2
 const ArticleListPage = () => {
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        setLoading(true);
+        setError("");
+        const { data } = await fetchArticles();
+        const mapped = (data.articles ?? [])
+          .map((a) => ({ ...mapArticleFromApi(a), id: a._id }))
+          .filter((a) => a.isActive);
+        setArticles(mapped);
+      } catch (err) {
+        console.error("Unable to load articles:", err);
+        setError("Unable to load articles. Showing featured articles instead.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    load();
+  }, []);
+
+  const displayArticles = articles.length ? articles : fallbackArticles;
+
   return (
     <div className="flex w-full flex-col gap-6">
       <section className="border-y-2 border-zinc-900 bg-zinc-50 px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
@@ -41,115 +67,62 @@ const ArticleListPage = () => {
           </h2>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          <article className="rounded-3xl border-2 border-zinc-900 bg-zinc-100 p-4">
-            <div className="flex aspect-video items-center justify-center rounded-[1.25rem] bg-zinc-200 overflow-hidden">
-              <img
-                src={article1}
-                alt="Article 01"
-                className="w-full h-full object-cover"
-              />
-            </div>
+        {error && (
+          <div className="mb-5 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+            {error}
+          </div>
+        )}
 
-            <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-500">
-              Java
-            </p>
+        {loading ? (
+          <div className="rounded-2xl border border-zinc-200 bg-white p-8 text-center text-zinc-700">
+            Loading articles...
+          </div>
+        ) : displayArticles.length === 0 ? (
+          <div className="rounded-2xl border border-zinc-200 bg-white p-8 text-center text-zinc-700">
+            No articles available.
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {displayArticles.map((article) => (
+              <Link
+                key={article.id ?? article.name}
+                to={`/articles/${article.name}`}
+                className="group flex flex-col overflow-hidden rounded-2xl border-2 border-zinc-900 bg-white transition hover:shadow-md"
+              >
+                <div className="aspect-video overflow-hidden bg-zinc-200">
+                  {article.imageUrl || article.image ? (
+                    <img
+                      src={article.imageUrl || article.image}
+                      alt={article.title}
+                      className="h-full w-full object-cover transition group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="h-full w-full bg-zinc-100" />
+                  )}
+                </div>
 
-            <h3 className="mt-2 text-lg font-semibold text-zinc-900">
-              Object-oriented enterprise programming language
-            </h3>
-
-            <p className="mt-3 text-sm leading-6 text-zinc-600">
-              Developed structured applications and strengthened problem-solving
-              through object-oriented programming.
-            </p>
-
-            <Button to="/articles/java" className="mt-4">
-              Read More
-            </Button>
-          </article>
-
-          <article className="rounded-3xl border-2 border-zinc-900 bg-zinc-100 p-4">
-            <div className="flex aspect-video items-center justify-center rounded-[1.25rem] bg-zinc-200 overflow-hidden">
-              <img
-                src={article2}
-                alt="Article 02"
-                className="w-full h-full object-cover"
-              />
-            </div>
-
-            <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-500">
-              Python
-            </p>
-
-            <h3 className="mt-2 text-lg font-semibold text-zinc-900">
-              Simple versatile high-level language
-            </h3>
-
-            <p className="mt-3 text-sm leading-6 text-zinc-600">
-              Used Python to automate tasks and build simple programs with
-              efficient, readable code.
-            </p>
-
-            <Button to="/articles/python" className="mt-4">
-              Read More
-            </Button>
-          </article>
-
-          <article className="rounded-3xl border-2 border-zinc-900 bg-zinc-100 p-4">
-            <div className="flex aspect-video items-center justify-center rounded-[1.25rem] bg-zinc-200 overflow-hidden">
-              <img
-                src={article3}
-                alt="Article 03"
-                className="w-full h-full object-cover"
-              />
-            </div>
-
-            <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-500">
-              ReactJS
-            </p>
-
-            <h3 className="mt-2 text-lg font-semibold text-zinc-900">
-              Component-based JavaScript UI library
-            </h3>
-
-            <p className="mt-3 text-sm leading-6 text-zinc-600">
-              Built responsive user interfaces using reusable components and
-              modern web development practices.
-            </p>
-
-            <Button to="/articles/reactjs" className="mt-4">
-              Read More
-            </Button>
-          </article>
-
-          <article className="rounded-3xl border-2 border-zinc-900 bg-zinc-100 p-4">
-            <div className="flex aspect-video items-center justify-center rounded-[1.25rem] bg-zinc-200 overflow-hidden">
-              <img
-                src={article4}
-                alt="Article 04"
-                className="w-full h-full object-cover"
-              />
-            </div>
-
-            <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-500">
-              WordPress
-            </p>
-
-            <h3 className="mt-2 text-lg font-semibold text-zinc-900">
-              Popular website content management system
-            </h3>
-
-            <p className="mt-3 text-sm leading-6 text-zinc-600">
-              Managed and customized website content, layouts, and features for
-              functional web pages.
-            </p>
-
-            <Button to="/articles/wordpress" className="mt-4">
-              Read More
-            </Button>
-          </article>
-        </div>
+                <div className="flex flex-1 flex-col gap-2 p-4">
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-zinc-400">
+                    {article.name}
+                  </p>
+                  <h3 className="text-base font-bold text-zinc-900 group-hover:underline">
+                    {article.title}
+                  </h3>
+                  {article.description && (
+                    <p className="line-clamp-2 text-sm leading-6 text-zinc-600">
+                      {article.description}
+                    </p>
+                  )}
+                  <div className="mt-auto pt-3">
+                    <span className="inline-block rounded-lg border-2 border-zinc-900 px-3 py-1.5 text-xs font-semibold text-zinc-900 transition group-hover:bg-zinc-900 group-hover:text-white">
+                      Read More →
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );

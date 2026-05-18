@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import logo from "../assets/logowagc.png";
+const logo = "/assets/images/logowagc.png";
 
 //ENHANCEMENT 1: NAVBAR DESIGN
 const links = [
