@@ -14,48 +14,41 @@ connectDB();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Vercel options
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:5174",
+  "https://cando-webprog-client.vercel.app",
+  process.env.CLIENT_URL,
+].filter(Boolean);
+
 const corsOptions = {
-  origin: "*", // Allow all origins
-  credentials: true, // Allow credentials
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error(`Origin ${origin} is not allowed by CORS`));
+  },
   allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
   methods: ["GET", "PUT", "PATCH", "POST", "DELETE"],
-  preflightContinue: false,
-  optionsSuccessStatus: 204, // For legacy browser support
+  optionsSuccessStatus: 204,
 };
 
 app.use(cors(corsOptions));
 
-// Curb Cores Error by adding a header here
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization",
-  );
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-  );
-  next();
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(204);
+  }
+
+  return next();
 });
 
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api/articles", articleRoutes);
 
-// Handle CORS preflight requests for all routes
-app.options("*", cors(corsOptions));
-
-// Ensure OPTIONS requests get a quick response with CORS headers
-app.use((req, res, next) => {
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(204);
-  }
-  next();
-});
-
-// Error Handling
+// Error
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ message: "Server Error" });
